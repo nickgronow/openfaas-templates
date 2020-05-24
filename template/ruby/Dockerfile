@@ -36,6 +36,8 @@ USER app
 
 WORKDIR /home/app
 
+COPY base base
+
 ENV fprocess="ruby index.rb"
 EXPOSE 8080
 
