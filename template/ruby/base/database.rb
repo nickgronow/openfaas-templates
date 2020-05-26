@@ -27,6 +27,10 @@ class Database
     query(sql, *params)&.first
   end
 
+  def last(sql, *params)
+    query(sql, *params)&.last
+  end
+
   def find(table, **where)
     where_sql = where.keys.map.with_index do |column, i|
       type = where[column].is_a?(String) ? 'text' : 'integer'

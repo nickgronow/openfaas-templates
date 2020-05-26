@@ -29,14 +29,13 @@ RUN addgroup --system app \
     && adduser --system --ingroup app app
 
 COPY function .
+COPY base ../base
 
 RUN chown app:app -R /home/app
 
 USER app
 
 WORKDIR /home/app
-
-COPY base base
 
 ENV fprocess="ruby index.rb"
 EXPOSE 8080
