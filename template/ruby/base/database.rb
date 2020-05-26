@@ -31,9 +31,18 @@ class Database
     query(sql, *params)&.last
   end
 
+  def detect_type(value)
+    return 'integer' if value.is_a?(Integer)
+
+    if value.is_a?(String)
+      return /\A\d+\z/.match(value) ? 'integer' : 'text'
+    end
+    'text'
+  end
+
   def find(table, **where)
     where_sql = where.keys.map.with_index do |column, i|
-      type = /\A\d+\z/.match(where[column]) ? 'integer' : 'text'
+      type = detect_type(where[column])
       "#{column} = $#{i+1}::#{type}"
     end.join(' AND ')
     first(
