@@ -33,7 +33,7 @@ class Database
 
   def find(table, **where)
     where_sql = where.keys.map.with_index do |column, i|
-      type = where[column].is_a?(String) ? 'text' : 'integer'
+      type = /\A\d+\z/.match(where[column]) ? 'integer' : 'text'
       "#{column} = $#{i+1}::#{type}"
     end.join(' AND ')
     first(
