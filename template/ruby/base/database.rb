@@ -36,7 +36,10 @@ class Database
       type = where[column].is_a?(String) ? 'text' : 'integer'
       "#{column} = $#{i+1}::#{type}"
     end.join(' AND ')
-    first("SELECT * FROM #{table} WHERE #{where_sql}", *where.values)
+    first(
+      "SELECT * FROM #{table} WHERE #{where_sql} ORDER BY id DESC LIMIT 1",
+      *where.values
+    )
   end
 end
 
