@@ -8,7 +8,7 @@ class ActionHandler:
     def __init__(self, event, context):
         self.body = event.body
         self.headers = event.headers
-        self.namespace = os.environ.get('appname')
+        self.namespace = os.environ.get('APP_NAME')
         self.secrets_path = (os.environ.get('secrets')
                              or '/var/openfaas/secrets')
         self.initialize_db()
