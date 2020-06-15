@@ -16,7 +16,7 @@ def secret(name):
     path = os.environ.get('secrets') or '/var/openfaas/secrets'
     fullpath = f'{path}/{name}'
     with open(fullpath, 'r') as file:
-        return file.read()
+        return file.read().rstrip('\n')
 
 
 def log(message):
