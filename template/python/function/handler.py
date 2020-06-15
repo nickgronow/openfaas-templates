@@ -1,5 +1,7 @@
+import base
+
+
 def handle(event, context):
-    return {
-        "code": 200,
-        "body": "Hello from OpenFaaS!"
-    }
+    base.log('PROCESSING')
+    payload = {'status': 'success'}
+    return base.response(payload)
