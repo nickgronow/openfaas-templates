@@ -39,7 +39,7 @@ WORKDIR /home/app/
 USER root
 
 COPY function   function
-COPY base/*     function/
+COPY base/*     .
 
 RUN chown -R app:app .
 USER app
