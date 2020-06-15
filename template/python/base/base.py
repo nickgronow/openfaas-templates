@@ -29,6 +29,10 @@ def testing():
     return os.environ.get('TESTING')
 
 
+def production():
+    return os.environ.get('APP_ENV') == 'production'
+
+
 def response(payload):
     return {
         'body': payload,
