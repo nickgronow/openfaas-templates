@@ -1,3 +1,4 @@
+import os
 from sentry_sdk import configure_scope
 
 
@@ -22,4 +23,6 @@ def configure_sentry(body, **tags):
         for tag, value in tags.items():
             scope.set_tag(tag, value)
 
-        scope.set_tag('trigger.name', body['trigger']['name'])
+        app = os.environ.get('APP_NAME', 'unknown')
+        scope.set_tag('app.name', app)
+        scope.set_tag('app.trigger', body['trigger']['name'])
