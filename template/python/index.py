@@ -79,7 +79,7 @@ def format_response(resp):
 def call_handler(path):
     event = Event()
     context = Context()
-    response_data = handler.handle(app, event, context)
+    response_data = handler.handle(event, context)
 
     resp = format_response(response_data)
     return resp
