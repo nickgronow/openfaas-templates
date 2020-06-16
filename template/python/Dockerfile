@@ -22,11 +22,12 @@ ENV PATH=$PATH:/home/app/.local/bin
 
 WORKDIR /home/app/
 
-COPY index.py           .
 COPY requirements.txt   .
 USER root
 RUN pip install -r requirements.txt
+
 USER app
+COPY index.py           .
 
 RUN mkdir -p function
 RUN touch ./function/__init__.py

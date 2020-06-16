@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 dns = 'https://8f22032536a641d5b017e888e28073fd'\
     '@o71452.ingest.sentry.io/5278583'
-sentry_sdk.init(dns, integrations=[FlaskIntegration()])
+env = os.environ.get('APP_ENV', 'development')
+sentry_sdk.init(dns, integrations=[FlaskIntegration()], environment=env)
 
 
 class Event:
