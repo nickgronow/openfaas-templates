@@ -10,12 +10,16 @@ def data(body, key=None):
 
 def hasura(body, key):
     hasura_key = f'x-hasura-{key}'
-    return body['event']['session_variables'][hasura_key]
+    session = body['event']['session_variables']
+    return session[hasura_key] if hasura_key in session else 'none'
 
 
 def configure_sentry(body, **tags):
     with configure_scope() as scope:
-        scope.user = {'id': hasura('user-id')}
+        scope.user = {'id': hasura(body, 'user-id')}
+        scope.set_tag('user.role', hasura(body, 'role'))
 
-    for tag, value in tags.items():
-        scope.set_tag(tag, value)
+        for tag, value in tags.items():
+            scope.set_tag(tag, value)
+
+        scope.set_tag('trigger.name', body['trigger']['name'])
