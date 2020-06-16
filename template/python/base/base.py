@@ -1,5 +1,6 @@
 import os
 from database import Database
+import logging
 
 
 def db():
@@ -22,7 +23,7 @@ def secret(name):
 def log(message):
     if testing():
         return
-    print(message)
+    logging.info(message)
 
 
 def testing():

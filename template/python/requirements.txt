@@ -2,3 +2,4 @@ flask
 waitress
 psycopg2
 requests
+sentry-sdk

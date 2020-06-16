@@ -2,10 +2,19 @@
 from flask import Flask, request, jsonify
 from waitress import serve
 import os
+import logging
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from function import handler
 
 app = Flask(__name__)
+
+logging.basicConfig(level=logging.DEBUG)
+
+dns = 'https://8f22032536a641d5b017e888e28073fd'\
+    '@o71452.ingest.sentry.io/5278583'
+sentry_sdk.init(dns, integrations=[FlaskIntegration()])
 
 
 class Event:
@@ -70,7 +79,7 @@ def format_response(resp):
 def call_handler(path):
     event = Event()
     context = Context()
-    response_data = handler.handle(event, context)
+    response_data = handler.handle(app, event, context)
 
     resp = format_response(response_data)
     return resp
