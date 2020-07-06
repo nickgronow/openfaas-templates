@@ -1,5 +1,4 @@
-import os
-from sentry_sdk import configure_scope
+import sentry
 
 
 def data(body, key=None):
@@ -16,13 +15,5 @@ def hasura(body, key):
 
 
 def configure_sentry(body, **tags):
-    with configure_scope() as scope:
-        scope.user = {'id': hasura(body, 'user-id')}
-        scope.set_tag('user.role', hasura(body, 'role'))
-
-        for tag, value in tags.items():
-            scope.set_tag(tag, value)
-
-        app = os.environ.get('APP_NAME', 'unknown')
-        scope.set_tag('app.name', app)
-        scope.set_tag('app.trigger', body['trigger']['name'])
+    tags['app.trigger'] = body['trigger']['name']
+    sentry.configure(body, **tags)
