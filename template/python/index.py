@@ -12,9 +12,8 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-dns = 'https://8f22032536a641d5b017e888e28073fd'\
-    '@o71452.ingest.sentry.io/5278583'
-env = os.environ.get('APP_ENV', 'development')
+dns = "https://8f22032536a641d5b017e888e28073fd" "@o71452.ingest.sentry.io/5278583"
+env = os.environ.get("APP_ENV", "development")
 sentry_sdk.init(dns, integrations=[FlaskIntegration()], environment=env)
 
 
@@ -32,41 +31,41 @@ class Event:
 
 class Context:
     def __init__(self):
-        self.hostname = os.environ['HOSTNAME']
+        self.hostname = os.environ["HOSTNAME"]
 
 
 def format_status_code(resp):
-    if 'code' in resp:
-        return resp['code']
+    if "code" in resp:
+        return resp["code"]
 
     return 200
 
 
 def format_body(resp):
-    if 'body' not in resp:
+    if "body" not in resp:
         return ""
-    elif type(resp['body']) == dict:
-        return jsonify(resp['body'])
+    elif type(resp["body"]) == dict:
+        return jsonify(resp["body"])
     else:
-        return str(resp['body'])
+        return str(resp["body"])
 
 
 def format_headers(resp):
-    if 'headers' not in resp:
+    if "headers" not in resp:
         return []
-    elif type(resp['headers']) == dict:
+    elif type(resp["headers"]) == dict:
         headers = []
-        for key in resp['headers'].keys():
-            header_tuple = (key, resp['headers'][key])
+        for key in resp["headers"].keys():
+            header_tuple = (key, resp["headers"][key])
             headers.append(header_tuple)
         return headers
 
-    return resp['headers']
+    return resp["headers"]
 
 
 def format_response(resp):
     if resp is None:
-        return ('', 200)
+        return ("", 200)
 
     statusCode = format_status_code(resp)
     body = format_body(resp)
@@ -75,8 +74,8 @@ def format_response(resp):
     return (body, statusCode, headers)
 
 
-@app.route('/', defaults={'path': ''}, methods=['GET', 'PUT', 'POST', 'PATCH', 'DELETE'])
-@app.route('/<path:path>', methods=['GET', 'PUT', 'POST', 'PATCH', 'DELETE'])
+@app.route("/", defaults={"path": ""}, methods=["GET", "POST"])
+@app.route("/<path:path>", methods=["GET", "POST"])
 def call_handler(path):
     event = Event()
     context = Context()
@@ -86,5 +85,5 @@ def call_handler(path):
     return resp
 
 
-if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    serve(app, host="0.0.0.0", port=5000)
