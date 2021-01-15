@@ -35,10 +35,7 @@ class Context:
 
 
 def format_status_code(resp):
-    if "code" in resp:
-        return resp["code"]
-
-    return 200
+    return resp.get("code", 200)
 
 
 def format_body(resp):
