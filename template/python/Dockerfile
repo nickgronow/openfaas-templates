@@ -30,7 +30,7 @@ USER app
 COPY index.py           .
 
 RUN mkdir -p function
-RUN touch ./function/__init__.py
+ENV PYTHONPATH=/home/app/function
 WORKDIR /home/app/function/
 COPY function/requirements.txt .
 RUN pip install --user -r requirements.txt
